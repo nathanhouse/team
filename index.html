@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StationX For Teams</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --pro-color: #0284c7;
+            --pro-bg: #e0f2fe;
+            --advanced-color: #7c3aed;
+            --advanced-bg: #f3e8ff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #059669;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            background-color: #f8fafc;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (min-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .quick-comparison {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .quick-comparison h2 {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 700;
+        }
+
+        .quick-comparison table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .quick-comparison th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-align: left;
+            padding: 1rem;
+        }
+
+        .quick-comparison td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .quick-comparison tr:last-child td {
+            border-bottom: none;
+        }
+
+        .quick-comparison td:first-child {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .quick-comparison .pro-value {
+            color: var(--pro-color);
+        }
+
+        .quick-comparison .advanced-value {
+            color: var(--advanced-color);
+            font-weight: 600;
+        }
+
+        .plan-card {
+            background-color: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .plan-header {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .pro .plan-header {
+            background-color: var(--pro-bg);
+        }
+
+        .advanced .plan-header {
+            background-color: var(--advanced-bg);
+        }
+
+        .plan-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .pro .plan-title {
+            color: var(--pro-color);
+        }
+
+        .advanced .plan-title {
+            color: var(--advanced-color);
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-terms {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .plan-content {
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .feature-section {
+            margin-bottom: 2rem;
+        }
+
+        .feature-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .pro .section-title {
+            color: var(--pro-color);
+            border-color: var(--pro-color);
+        }
+
+        .advanced .section-title {
+            color: var(--advanced-color);
+            border-color: var(--advanced-color);
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.75rem;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .highlight {
+            font-weight: 600;
+        }
+
+        .advanced .exclusive {
+            font-weight: 600;
+            color: var(--advanced-color);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .success-badge {
+            background-color: #dcfce7;
+            color: var(--success);
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--text-light);
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>StationX For Teams</h1>
+            <p>Comprehensive cybersecurity and IT training solutions tailored for modern business teams</p>
+        </header>
+
+        <div class="quick-comparison">
+            <h2>Plan Comparison at a Glance</h2>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Annual Price</td>
+                        <td class="pro-value">$695 per person</td>
+                        <td class="advanced-value">$3,700 per person</td>
+                    </tr>
+                    <tr>
+                        <td>Minimum Seats</td>
+                        <td>3 seats</td>
+                        <td>1 seat</td>
+                    </tr>
+                    <tr>
+                        <td>Access Period</td>
+                        <td>12 months</td>
+                        <td class="advanced-value">Lifetime (License reassignable once yearly)</td>
+                    </tr>
+                    <tr>
+                        <td>Content Library</td>
+                        <td>1,000+ Classes and Labs</td>
+                        <td class="advanced-value">30,000+ Classes and Labs</td>
+                    </tr>
+                    <tr>
+                        <td>Certification Pathways</td>
+                        <td>39+ pathways</td>
+                        <td class="advanced-value">300+ pathways</td>
+                    </tr>
+                    <tr>
+                        <td>Skills Pathways</td>
+                        <td>45+ pathways</td>
+                        <td class="advanced-value">300+ pathways</td>
+                    </tr>
+                    <tr>
+                        <td>Mentorship Level</td>
+                        <td>Basic (Level 1)</td>
+                        <td class="advanced-value">Premium (Level 2)</td>
+                    </tr>
+                    <tr>
+                        <td>Exclusive Programs</td>
+                        <td>Limited Fast-Track Access</td>
+                        <td class="advanced-value">Mastermind Program + Inner Circle Access</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="plan-card pro">
+                <div class="plan-header">
+                    <div class="plan-title">Teams Pro</div>
+                    <div class="plan-price">$695</div>
+                    <div class="plan-terms">per person / year • Minimum 3 seats • 12 months access</div>
+                </div>
+                <div class="plan-content">
+                    <div class="feature-section">
+                        <div class="section-title">Workforce Success</div>
+                        <ul class="feature-list">
+                            <li>Comprehensive Student Progress Reports</li>
+                            <li>Professional Invoices & Quotes</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-section">
+                        <div class="section-title">Learning Content</div>
+                        <ul class="feature-list">
+                            <li>1,000+ Classes and Virtual Labs</li>
+                            <li>45+ Skills Pathways</li>
+                            <li>47+ Role Pathways</li>
+                            <li>39+ Certification Pathways</li>
+                            <li>CompTIA, Cisco, AWS, Microsoft Azure & more</li>
+                            <li>Exam Simulations for Top Certification Exams</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-section">
+                        <div class="section-title">Community & Support</div>
+                        <ul class="feature-list">
+                            <li>Accelerator Community Access</li>
+                            <li>Focus Groups Participation</li>
+                            <li>AI & Future Technology Updates</li>
+                            <li>Success Trackers and Leaderboards</li>
+                            <li>Certification & Career Matchmaker PRO</li>
+                            <li>Priority Customer Support</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-section">
+                        <div class="section-title">Mentorship & Live Events</div>
+                        <ul class="feature-list">
+                            <li>Career Mentorship (Text): Level 1</li>
+                            <li>Question Support (Basic): Level 1</li>
+                            <li>Partial Fast-Track Program Access</li>
+                            <li>Instructor-led Training Sessions</li>
+                            <li>Group Study Sessions</li>
+                            <li>Co-working Sessions</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-section">
+                        <div class="section-title">Career Development</div>
+                        <ul class="feature-list">
+                            <li>Complete Career Toolkit</li>
+                            <li>Job Search Assistance</li>
+                            <li>Resume Building Training</li>
+                            <li>Interview Preparation</li>
+                            <li>Remote Work Support Resources</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plan-card advanced">
+                <div class="plan-header">
+                    <div class="plan-title">Teams Advanced</div>
+                    <div class="plan-price">$3,700</div>
+                    <div class="plan-terms">per person / year • Minimum 1 seat • Lifetime access (License reassignable once yearly)</div>
+                </div>
+                <div class="plan-content">
+                    <div class="feature-section">
+                        <div class="section-title">Workforce Success</div>
+                        <ul class="feature-list">
+                            <li>Comprehensive Student Progress Reports</li>
+                            <li class="exclusive">Dedicated Workforce Development Consultant</li>
+                            <li class="exclusive">Customized Study Paths for Team Members</li>
+                            <li>Professional Invoices & Quotes</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-section">
+                        <div class="section-title">Learning Content</div>
+                        <ul class="feature-list">
+                            <li class="exclusive">30,000+ Classes and Virtual Labs (12 months access, renewable at $1,000/yr)</li>
+                            <li class="exclusive">1,000+ Classes with Lifetime Access</li>
+                            <li class="exclusive">300+ Skills Pathways</li>
+                            <li>47+ Role Pathways</li>
+                            <li class="exclusive">300+ Certification Pathways</li>
+                            <li>Exam Simulations for Top Certification Exams</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-section">
+                        <div class="section-title">Community & Support</div>
+                        <ul class="feature-list">
+                            <li>Accelerator Community Access</li>
+                            <li>Focus Groups Participation</li>
+                            <li>AI & Future Technology Updates</li>
+                            <li>Success Trackers and Leaderboards</li>
+                            <li>Certification & Career Matchmaker PRO</li>
+                            <li class="exclusive">Premium Customer Support</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-section">
+                        <div class="section-title">Mentorship & Live Events</div>
+                        <ul class="feature-list">
+                            <li>Career Mentorship (Text): Level 1</li>
+                            <li class="exclusive">Personalized Mentor-Crafted Study Plan</li>
+                            <li class="exclusive">Live Workshops and Classes</li>
+                            <li>Instructor-led Training Sessions</li>
+                            <li>Group Study Sessions</li>
+                            <li>Co-working Sessions</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-section">
+                        <div class="section-title">Career Development</div>
+                        <ul class="feature-list">
+                            <li>Complete Career Toolkit</li>
+                            <li>Job Search Assistance</li>
+                            <li>Resume Building Training</li>
+                            <li>Interview Preparation</li>
+                            <li>Remote Work Support Resources</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-section">
+                        <div class="section-title">Exclusive: Mastermind Program</div>
+                        <ul class="feature-list">
+                            <li class="exclusive">Career Mentorship (Text/Audio): Level 2</li>
+                            <li class="exclusive">Mastermind Group Membership</li>
+                            <li class="exclusive">Weekly Live Calls</li>
+                            <li class="exclusive">Full Fast-Track Program Access</li>
+                            <li class="exclusive">Accountability App Integration</li>
+                            <li class="exclusive">91.25% Success Rate <span class="badge success-badge">Proven</span></li>
+                            <li class="exclusive">Dedicated Group Chat</li>
+                            <li class="exclusive">Soft Skills & Leadership Training</li>
+                            <li class="exclusive">Direct Expert Access</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-section">
+                        <div class="section-title">Exclusive: Inner Circle Access</div>
+                        <ul class="feature-list">
+                            <li class="exclusive">Exclusive Training Sessions</li>
+                            <li class="exclusive">Special Industry Events</li>
+                            <li class="exclusive">High-Value Networking Opportunities</li>
+                            <li class="exclusive">Early Access to New Content</li>
+                            <li class="exclusive">VIP Support Channel</li>
+                            <li class="exclusive">Private Live Sessions</li>
+                            <li class="exclusive">Special Discounts & Offers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>StationX for Teams • Empowering cybersecurity and IT professionals through world-class training</p>
+        </div>
+    </div>
+</body>
+</html>
